@@ -1,0 +1,28 @@
+#phrasesList span {
+  cursor: pointer;
+  color: blue;
+  text-decoration: underline;
+}
+#phrasesList span:hover {
+  color: red;
+}
+.predefined-style {
+  cursor: pointer;
+  margin-right: 5px;
+  padding: 2px 5px;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+}
+.predefined-style:hover {
+  background-color: #eee;
+}
+#statusMessage {
+  margin-top: 10px;
+  font-size: 0.9em;
+}
+#statusMessage.success {
+  color: green;
+}
+#statusMessage.error {
+  color: red;
+}
