@@ -13,6 +13,7 @@ function updateHighlights(phraseStyles) {
   }
 }
 
+
 function highlightPhrase(phrase, style) {
   var regex = new RegExp(`(${phrase})`, 'gi');
   document.body.innerHTML = document.body.innerHTML.replace(regex, `<span style="${style}">$1</span>`);
