@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Phrase Highlighter Test Page</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            line-height: 1.6;
+        }
+        .demo-section {
+            background: #f5f5f5;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+        .highlight-demo {
+            font-size: 18px;
+            margin: 10px 0;
+        }
+        .instructions {
+            background: #e3f2fd;
+            border-left: 4px solid #2196F3;
+            padding: 15px;
+            margin: 20px 0;
+        }
+        .step {
+            margin: 10px 0;
+            padding: 10px;
+            background: white;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+    <h1>🎨 Phrase Highlighter Extension Test Page</h1>
+    
+    <div class="instructions">
+        <h2>📋 How to Test the Extension:</h2>
+        
+        <div class="step">
+            <strong>Step 1:</strong> Install the extension by going to <code>chrome://extensions/</code>, enabling "Developer mode", and clicking "Load unpacked" to select your PhraseHighlighter folder.
+        </div>
+        
+        <div class="step">
+            <strong>Step 2:</strong> Look for the extension icon in your Chrome toolbar (it should appear after installation).
+        </div>
+        
+        <div class="step">
+            <strong>Step 3:</strong> Click the extension icon to open the popup interface.
+        </div>
+        
+        <div class="step">
+            <strong>Step 4:</strong> Try the new text selection feature by clicking the "Select Text" button in the popup.
+        </div>
+        
+        <div class="step">
+            <strong>Step 5:</strong> After clicking "Select Text", you can drag to select any text on this page and save it as a phrase!
+        </div>
+    </div>
+
+    <div class="demo-section">
+        <h2>🧪 Test Text for Selection</h2>
+        
+        <div class="highlight-demo">
+            This is a <strong>sample paragraph</strong> where you can test selecting different phrases. Try selecting "sample paragraph" or "test selecting" to see how the extension works.
+        </div>
+        
+        <div class="highlight-demo">
+            Here's another sentence with <em>interesting words</em> that you might want to highlight. You could select "interesting words" or "want to highlight".
+        </div>
+        
+        <div class="highlight-demo">
+            The extension allows you to <span style="color: blue;">drag and select text</span> naturally, just like you would when copying text, but instead it saves the selected phrase for highlighting.
+        </div>
+    </div>
+
+    <div class="demo-section">
+        <h2>⌨️ Keyboard Shortcuts</h2>
+        <ul>
+            <li><kbd>Ctrl + Shift + H</kbd> - Toggle selection mode on/off</li>
+            <li><kbd>Escape</kbd> - Exit selection mode</li>
+        </ul>
+    </div>
+
+    <div class="demo-section">
+        <h2>🎯 What Should Happen</h2>
+        <ol>
+            <li>Click "Select Text" in the extension popup</li>
+            <li>The popup will close and you'll see a message about selection mode being active</li>
+            <li>Your cursor should change to a crosshair</li>
+            <li>Click and drag to select any text on this page</li>
+            <li>A tooltip will appear with the selected text and "Save Phrase" button</li>
+            <li>Click "Save Phrase" to save it</li>
+            <li>The text will be highlighted with a yellow background</li>
+            <li>The phrase will appear in your saved phrases list</li>
+        </ol>
+    </div>
+
+    <div class="demo-section">
+        <h2>📝 Manual Testing (Traditional Method)</h2>
+        <p>If the text selection isn't working, you can still test the basic functionality:</p>
+        <ol>
+            <li>Click the extension icon</li>
+            <li>Type "sample paragraph" in the phrase input</li>
+            <li>Click "Save Phrase"</li>
+            <li>You should see it highlighted on this page</li>
+        </ol>
+    </div>
+
+    <div class="demo-section">
+        <h2>🔍 Troubleshooting</h2>
+        <ul>
+            <li><strong>Extension not appearing:</strong> Make sure you loaded the correct folder and the manifest.json is valid</li>
+            <li><strong>Selection mode not working:</strong> Check the browser console (F12) for any error messages</li>
+            <li><strong>Text not highlighting:</strong> Ensure the extension toggle is enabled in the popup</li>
+            <li><strong>Popup not opening:</strong> Try right-clicking the extension icon and selecting "Open popup"</li>
+        </ul>
+    </div>
+
+    <div class="demo-section">
+        <h2>🎨 Test Different Text Types</h2>
+        <p>Try selecting these different types of content:</p>
+        <ul>
+            <li>Single words like <strong>technology</strong></li>
+            <li>Short phrases like <em>innovative solutions</em></li>
+            <li>Longer sentences that span multiple lines</li>
+            <li>Text with special characters: user@example.com</li>
+            <li>Numbers and dates: 2025-08-01</li>
+        </ul>
+    </div>
+
+    <script>
+        console.log('Phrase Highlighter test page loaded');
+        console.log('Check if extension content script is running...');
+        
+        // Simple test to see if extension is loaded
+        setTimeout(() => {
+            if (window.phraseHighlighter) {
+                console.log('✅ Extension content script detected');
+            } else {
+                console.log('❌ Extension content script not found - make sure extension is loaded');
+            }
+        }, 1000);
+    </script>
+</body>
+</html>

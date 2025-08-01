@@ -50,16 +50,21 @@ class PhraseHighlighter {
         50% { opacity: 1; }
       }
       .phrase-highlighter-tooltip {
-        position: absolute;
+        position: fixed;
         background: #333;
         color: white;
-        padding: 8px 12px;
-        border-radius: 4px;
-        font-size: 12px;
+        padding: 12px 16px;
+        border-radius: 8px;
+        font-size: 13px;
         z-index: 10000;
-        pointer-events: none;
         white-space: nowrap;
-        box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+        box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+        max-width: 300px;
+        pointer-events: auto;
+      }
+      .phrase-highlighter-tooltip button {
+        pointer-events: auto;
+        margin: 0 4px;
       }
       .phrase-highlighter-tooltip::after {
         content: '';
@@ -75,6 +80,14 @@ class PhraseHighlighter {
       }
       .phrase-highlighter-selection-mode * {
         cursor: crosshair !important;
+      }
+      @keyframes slideInFromTop {
+        from { transform: translateX(-50%) translateY(-100%); opacity: 0; }
+        to { transform: translateX(-50%) translateY(0); opacity: 1; }
+      }
+      @keyframes slideOutToTop {
+        from { transform: translateX(-50%) translateY(0); opacity: 1; }
+        to { transform: translateX(-50%) translateY(-100%); opacity: 0; }
       }
     `;
     document.head.appendChild(style);
@@ -297,7 +310,36 @@ class PhraseHighlighter {
   enableSelectionMode() {
     this.isSelectionMode = true;
     document.body.classList.add('phrase-highlighter-selection-mode');
-    this.showTooltip('Selection mode enabled! Click and drag to select text to highlight. Press Esc to exit.', { x: window.innerWidth / 2, y: 50 });
+    
+    // Show a more prominent notification
+    const notification = document.createElement('div');
+    notification.style.cssText = `
+      position: fixed;
+      top: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: #2196F3;
+      color: white;
+      padding: 12px 24px;
+      border-radius: 25px;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      font-size: 14px;
+      font-weight: 500;
+      z-index: 10001;
+      box-shadow: 0 4px 12px rgba(33, 150, 243, 0.3);
+      animation: slideInFromTop 0.3s ease;
+    `;
+    notification.innerHTML = '🎯 Selection Mode Active! Drag to select text • Press <kbd>Esc</kbd> to exit';
+    
+    document.body.appendChild(notification);
+    
+    // Remove notification after 4 seconds
+    setTimeout(() => {
+      if (notification.parentNode) {
+        notification.style.animation = 'slideOutToTop 0.3s ease';
+        setTimeout(() => notification.remove(), 300);
+      }
+    }, 4000);
   }
 
   disableSelectionMode() {
@@ -351,12 +393,20 @@ class PhraseHighlighter {
     
     const tooltip = document.createElement('div');
     tooltip.className = 'phrase-highlighter-tooltip';
-    tooltip.style.left = x + 'px';
-    tooltip.style.top = (y - 60) + 'px';
+    
+    // Better positioning that stays on screen
+    const tooltipX = Math.min(Math.max(x, 10), window.innerWidth - 250);
+    const tooltipY = Math.max(y - 80, 10);
+    
+    tooltip.style.left = tooltipX + 'px';
+    tooltip.style.top = tooltipY + 'px';
     tooltip.innerHTML = `
-      <div style="margin-bottom: 4px;">Selected: "${selectedText.substring(0, 30)}${selectedText.length > 30 ? '...' : ''}"</div>
-      <button id="phraseHighlighterSave" style="background: #2196F3; color: white; border: none; padding: 4px 8px; border-radius: 3px; cursor: pointer; margin-right: 4px;">Save Phrase</button>
-      <button id="phraseHighlighterCancel" style="background: #666; color: white; border: none; padding: 4px 8px; border-radius: 3px; cursor: pointer;">Cancel</button>
+      <div style="margin-bottom: 8px; font-weight: bold;">📝 Selected Text:</div>
+      <div style="margin-bottom: 8px; font-style: italic; max-width: 200px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">"${selectedText}"</div>
+      <div style="display: flex; gap: 8px;">
+        <button id="phraseHighlighterSave" style="background: #4CAF50; color: white; border: none; padding: 6px 12px; border-radius: 4px; cursor: pointer; font-size: 12px; font-weight: bold;">💾 Save Phrase</button>
+        <button id="phraseHighlighterCancel" style="background: #f44336; color: white; border: none; padding: 6px 12px; border-radius: 4px; cursor: pointer; font-size: 12px;">❌ Cancel</button>
+      </div>
     `;
     
     document.body.appendChild(tooltip);
@@ -365,20 +415,24 @@ class PhraseHighlighter {
     const saveBtn = tooltip.querySelector('#phraseHighlighterSave');
     const cancelBtn = tooltip.querySelector('#phraseHighlighterCancel');
     
-    saveBtn.addEventListener('click', () => {
+    saveBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
       this.saveSelectedPhrase(selectedText);
     });
     
-    cancelBtn.addEventListener('click', () => {
+    cancelBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
       this.hideTooltip();
       this.clearSelectionHighlight();
     });
     
-    // Auto-hide after 10 seconds
+    // Auto-hide after 15 seconds
     setTimeout(() => {
-      this.hideTooltip();
-      this.clearSelectionHighlight();
-    }, 10000);
+      if (tooltip.parentNode) {
+        this.hideTooltip();
+        this.clearSelectionHighlight();
+      }
+    }, 15000);
   }
 
   async saveSelectedPhrase(selectedText) {
@@ -424,10 +478,10 @@ class PhraseHighlighter {
     
     const tooltip = document.createElement('div');
     tooltip.className = 'phrase-highlighter-tooltip';
-    tooltip.textContent = message;
-    tooltip.style.left = (position.x - 100) + 'px';
-    tooltip.style.top = position.y + 'px';
-    tooltip.style.transform = 'translateX(-50%)';
+    tooltip.innerHTML = message;
+    tooltip.style.left = Math.max(10, Math.min(position.x - 150, window.innerWidth - 300)) + 'px';
+    tooltip.style.top = Math.max(10, position.y) + 'px';
+    tooltip.style.pointerEvents = 'none';
     
     document.body.appendChild(tooltip);
   }
