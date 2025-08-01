@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Phrase Highlighter</title>
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>Phrase Highlighter</h1>
+      <div class="toggle-container">
+        <label class="toggle-switch">
+          <input type="checkbox" id="enableToggle" checked>
+          <span class="slider"></span>
+        </label>
+        <span class="toggle-label">Enable Highlighting</span>
+      </div>
+    </header>
+
+    <main>
+      <section class="input-section">
+        <div class="input-group">
+          <label for="phraseInput">Phrase to highlight:</label>
+          <input 
+            id="phraseInput" 
+            type="text" 
+            placeholder="Enter phrase..."
+            maxlength="100"
+          >
+        </div>
+
+        <div class="styles-section">
+          <label>Quick Styles:</label>
+          <div id="predefinedStyles" class="predefined-styles"></div>
+        </div>
+
+        <div class="input-group">
+          <label for="customStyle">Custom CSS:</label>
+          <textarea 
+            id="customStyle" 
+            rows="3" 
+            placeholder="background-color: yellow; color: black;"
+            maxlength="200"
+          ></textarea>
+        </div>
+
+        <div class="button-group">
+          <button id="savePhrase" class="btn btn-primary">Save Phrase</button>
+          <button id="clearAll" class="btn btn-secondary">Clear All</button>
+        </div>
+      </section>
+
+      <section class="phrases-section">
+        <h3>Saved Phrases</h3>
+        <div id="phrasesList" class="phrases-list"></div>
+        <div id="emptyState" class="empty-state" style="display: none;">
+          No phrases saved yet. Add a phrase above to get started!
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <div id="statusMessage" class="status-message"></div>
+    </footer>
+  </div>
+
+  <script src="popup.js"></script>
+</body>
+</html>

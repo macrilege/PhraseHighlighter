@@ -1,0 +1,36 @@
+{
+  "manifest_version": 3,
+  "name": "Phrase Highlighter",
+  "version": "2.0",
+  "description": "Highlight specific phrases on web pages with customizable styles.",
+  "permissions": [
+    "storage",
+    "activeTab"
+  ],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["content.js"],
+      "run_at": "document_end"
+    }
+  ],
+  "action": {
+    "default_popup": "popup/popup.html",
+    "default_icon": {
+      "16": "images/icon128.jpg",
+      "48": "images/icon128.jpg",
+      "128": "images/icon128.jpg"
+    }
+  },
+  "icons": {
+    "16": "images/icon128.jpg",
+    "48": "images/icon128.jpg",
+    "128": "images/icon128.jpg"
+  },
+  "host_permissions": [
+    "<all_urls>"
+  ]
+}
