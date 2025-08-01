@@ -174,18 +174,21 @@ textarea {
 /* Buttons */
 .button-group {
   display: flex;
-  gap: 8px;
+  gap: 6px;
+  flex-wrap: wrap;
 }
 
 .btn {
-  padding: 8px 16px;
+  padding: 8px 12px;
   border: none;
   border-radius: 6px;
-  font-size: 14px;
+  font-size: 13px;
   font-weight: 500;
   cursor: pointer;
   transition: all 0.2s ease;
   font-family: inherit;
+  flex: 1;
+  min-width: 80px;
 }
 
 .btn-primary {
@@ -223,6 +226,17 @@ h3 {
   font-weight: 600;
   color: #374151;
   margin-bottom: 8px;
+}
+
+.help-text {
+  font-size: 12px;
+  color: #6b7280;
+  background-color: #f0f9ff;
+  border: 1px solid #e0f2fe;
+  border-radius: 4px;
+  padding: 8px;
+  margin-bottom: 8px;
+  line-height: 1.4;
 }
 
 .phrases-list {

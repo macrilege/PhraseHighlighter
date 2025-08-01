@@ -33,6 +33,7 @@ class PopupManager {
       phraseInput: document.getElementById('phraseInput'),
       customStyle: document.getElementById('customStyle'),
       saveButton: document.getElementById('savePhrase'),
+      toggleSelectionButton: document.getElementById('toggleSelection'),
       clearAllButton: document.getElementById('clearAll'),
       predefinedStyles: document.getElementById('predefinedStyles'),
       phrasesList: document.getElementById('phrasesList'),
@@ -50,6 +51,11 @@ class PopupManager {
     // Save button
     this.elements.saveButton.addEventListener('click', () => {
       this.savePhrase();
+    });
+
+    // Toggle selection mode button
+    this.elements.toggleSelectionButton.addEventListener('click', () => {
+      this.toggleSelectionMode();
     });
 
     // Clear all button
@@ -283,6 +289,21 @@ class PopupManager {
     } catch (error) {
       console.error('Error deleting phrase:', error);
       this.showStatus('Error deleting phrase', 'error');
+    }
+  }
+
+  async toggleSelectionMode() {
+    try {
+      await this.sendMessageToContentScript({ action: 'toggleSelectionMode' });
+      this.showStatus('Click and drag text on the page to select phrases! Press Ctrl+Shift+H or Esc to exit.', 'success');
+      
+      // Close popup after a short delay to let user see the message
+      setTimeout(() => {
+        window.close();
+      }, 2000);
+    } catch (error) {
+      console.error('Error toggling selection mode:', error);
+      this.showStatus('Error activating selection mode', 'error');
     }
   }
 
